@@ -64,6 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Argument.cs" />
     <Compile Include="CompiledExpression.cs" />
     <Compile Include="DefaultTranslationOf.cs" />
     <Compile Include="ExpressiveExtensions.cs" />
