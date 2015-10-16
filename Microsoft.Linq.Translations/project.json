@@ -1,0 +1,22 @@
+{
+  "version": "1.1.0-*",
+  "description": "Microsoft.Linq.Translations",
+  "authors": [ "Damien Guard" ],
+  "tags": [ "linq", "computedproperties"],
+  "projectUrl": "http://damieng.com/blog/2009/06/24/client-side-properties-and-any-remote-linq-provider",
+  "licenseUrl": "http://www.microsoft.com/opensource/licenses.mspx",
+  "requireLicenseAcceptance": true,
+
+  "frameworks": {
+    "dotnet": {
+      "dependencies": {
+        "System.Runtime": "4.0.0-*",
+        "System.Collections": "4.0.0-*",
+        "System.Linq": "4.0.0-*",
+        "System.Linq.Expressions": "4.0.0-*",
+        "System.Reflection": "4.0.0-*",
+        "System.Reflection.TypeExtensions": "4.0.0-*"
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@ namespace Microsoft.Linq.Translations
 {
     using System;
     using System.Diagnostics;
-
+    using System.Reflection;
     /// <summary>
     /// Argument validation static helpers to reduce noise in other methods.
     /// </summary>
@@ -33,7 +33,7 @@ namespace Microsoft.Linq.Translations
 
         public static void EnsureIsAssignableFrom<T>(string parameterName, Type type)
         {
-            if (!typeof(T).IsAssignableFrom(type))
+            if (!typeof(T).GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()))
                 throw new ArgumentException(string.Format("Type {0} must be assignable from {1}", type.Name, typeof(T).Name), parameterName);
         }
 

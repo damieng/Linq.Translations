@@ -7,7 +7,7 @@ namespace Microsoft.Linq.Translations
     using System.Linq;
     using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
-
+    using System.Reflection;
     /// <summary>
     /// Extension methods over IQueryable to turn on expression translation via a
     /// specified or default TranslationMap.
@@ -86,7 +86,7 @@ namespace Microsoft.Linq.Translations
                     return VisitCompiledExpression(cp, node.Expression);
                 }
 
-                if (typeof(CompiledExpression).IsAssignableFrom(node.Member.DeclaringType))
+                if (typeof(CompiledExpression).GetTypeInfo().IsAssignableFrom(node.Member.DeclaringType.GetTypeInfo()))
                 {
                     return VisitCompiledExpression(cp, node.Expression);
                 }
