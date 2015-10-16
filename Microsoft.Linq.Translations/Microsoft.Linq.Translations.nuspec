@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-  <metadata>
-    <licenseUrl>http://www.microsoft.com/opensource/licenses.mspx</licenseUrl>
-    <projectUrl>http://damieng.com/blog/2009/06/24/client-side-properties-and-any-remote-linq-provider</projectUrl>
-    <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <tags>linq computedproperties</tags>
-  </metadata>
-</package>
