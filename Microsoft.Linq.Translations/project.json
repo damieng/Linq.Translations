@@ -1,7 +1,7 @@
 {
   "version": "1.1.0-*",
   "description": "Microsoft.Linq.Translations",
-  "authors": [ "Damien Guard, David Fowler, Colin Meek" ],
+  "authors": [ "Damien Guard", "David Fowler", "Colin Meek" ],
   "tags": [ "linq", "computedproperties"],
   "projectUrl": "http://damieng.com/blog/2009/06/24/client-side-properties-and-any-remote-linq-provider",
   "licenseUrl": "http://www.microsoft.com/opensource/licenses.mspx",
