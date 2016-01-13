@@ -74,24 +74,46 @@ namespace Microsoft.Linq.Translations
                 this.map = map;
             }
 
+            /// <summary>
+            ///  Walk up the inheritance heirarchy searching for a compiled expression attached to a
+            ///  property of the given name
+            /// </summary>
+            /// <param name="propName">Name of the property to search for</param>
+            /// <param name="type">Type of the member to search against</param>
+            /// <returns>Compiled expression if found or null if not</returns>
+            private CompiledExpression FindCompiledExpression(String propName, Type type)
+            {
+                while (type != typeof(Object))
+                {
+                    CompiledExpression cp;
+                    MemberInfo mi = type.GetProperty(propName, BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                    EnsureTypeInitialized(type);
+                    if (mi != null && map.TryGetValue(mi, out cp))
+                    {
+                        return cp;
+                    }
+                    type = type.BaseType;
+                }
+                return null;
+            }
+
             protected override Expression VisitMember(MemberExpression node)
             {
                 Argument.EnsureNotNull("node", node);
-
-                EnsureTypeInitialized(node.Member.DeclaringType);
-
-                CompiledExpression cp;
-                if (map.TryGetValue(node.Member, out cp))
+                // deltafsdevelopment 10 Nov 2015 - Fix to original code here so that the code searches for CompiledExpressions
+                // right through the inheritance heirarchy to allow them to be defined on base classes and on overrides
+                if (node.Expression != null)
                 {
-                    return VisitCompiledExpression(cp, node.Expression);
+                    Type type = node.Expression.Type;
+                    String propName = node.Member.Name;
+                    CompiledExpression cp = FindCompiledExpression(propName, type);
+                    if (cp != null)
+                    {
+                        return VisitCompiledExpression(cp, node.Expression);
+                    }
                 }
-
-                if (typeof(CompiledExpression).IsAssignableFrom(node.Member.DeclaringType))
-                {
-                    return VisitCompiledExpression(cp, node.Expression);
-                }
-
                 return base.VisitMember(node);
+
             }
 
             private Expression VisitCompiledExpression(CompiledExpression ce, Expression expression)
