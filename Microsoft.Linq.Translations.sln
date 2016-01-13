@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Linq.Translations", "Microsoft.Linq.Translations.csproj", "{9B67398B-02A2-4F47-84B8-9CB3C8913EC2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Linq.Translations.Test", "Microsoft.Linq.Translations.Test\Microsoft.Linq.Translations.Test.csproj", "{55BE9C1A-EF98-44F7-9ECC-A13C8AE80125}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9B67398B-02A2-4F47-84B8-9CB3C8913EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B67398B-02A2-4F47-84B8-9CB3C8913EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B67398B-02A2-4F47-84B8-9CB3C8913EC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55BE9C1A-EF98-44F7-9ECC-A13C8AE80125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55BE9C1A-EF98-44F7-9ECC-A13C8AE80125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55BE9C1A-EF98-44F7-9ECC-A13C8AE80125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55BE9C1A-EF98-44F7-9ECC-A13C8AE80125}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
