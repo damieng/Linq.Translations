@@ -86,7 +86,7 @@ namespace Microsoft.Linq.Translations
                     return VisitCompiledExpression(cp, node.Expression);
                 }
 
-                if (typeof(CompiledExpression).GetTypeInfo().IsAssignableFrom(node.Member.DeclaringType.GetTypeInfo()))
+                if (typeof(CompiledExpression).IsAssignableFrom(node.Member.DeclaringType))
                 {
                     return VisitCompiledExpression(cp, node.Expression);
                 }
