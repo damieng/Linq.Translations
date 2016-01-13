@@ -26,8 +26,16 @@ namespace Microsoft.Linq.Translations
         {
             Argument.EnsureNotNull("property", property);
             Argument.EnsureNotNull("compiledExpression", compiledExpression);
-
-            Add(((MemberExpression)property.Body).Member, compiledExpression);
+            
+            // deltafsdevelopment May 2013 - Fix to the code here so that if the prop is an override the derived class type name is
+            // is stored in the translation map not the base class name that way we can have different expressions mapped to the
+            // same override in different derived classes
+            if (property.Parameters.Count > 0)
+            {
+              ParameterExpression expr = property.Parameters[0];
+              PropertyInfo pi = expr.Type.GetProperty(((MemberExpression)property.Body).Member.Name);
+              base.Add(pi, compiledExpression);
+            }
         }
 
         public CompiledExpression<T, TResult> Add<T, TResult>(Expression<Func<T, TResult>> property, Expression<Func<T, TResult>> expression)
