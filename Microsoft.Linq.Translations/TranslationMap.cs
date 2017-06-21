@@ -18,7 +18,7 @@ namespace Microsoft.Linq.Translations
         {
             Argument.EnsureNotNull("method", method);
 
-            var propertyInfo = method.DeclaringType.GetProperty(method.Name.Replace("get_", String.Empty));
+            var propertyInfo = method.DeclaringType.GetRuntimeProperty(method.Name.Replace("get_", String.Empty));
             return this[propertyInfo] as CompiledExpression<T, TResult>;
         }
 
