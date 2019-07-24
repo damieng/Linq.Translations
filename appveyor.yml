@@ -9,6 +9,6 @@ build_script:
   - cmd: dotnet publish ./Microsoft.Linq.Translations.sln
 
 artifacts:
-  - path: ./Microsoft.Linq.Translations/bin/Debug/netstandard1.0/publish
-    name: DotNetStandard1_0
+  - path: ./Microsoft.Linq.Translations/bin/Debug/netstandard2.0/publish
+    name: DotNetStandard2_0
     type: zip
