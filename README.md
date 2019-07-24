@@ -1,4 +1,4 @@
-# Microsoft.Linq.Translations (also known as Expressives)
+# Microsoft.Linq.Translations (aka Expressives)
 
 [![NuGet](https://img.shields.io/nuget/v/Microsoft.Linq.Translations.svg?style=flat)](https://www.nuget.org/packages/Microsoft.Linq.Translations/)
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/6dvhu9u63ldp5s4j?svg=true)](https://ci.appveyor.com/project/damieng/linq-translations)
