@@ -5,15 +5,15 @@
 
 ## Overview
 
-If youíve ever written a property on your class and then got annoyed you canít use your locally-declared property as part of a remote query selection this library is for you.
+If you‚Äôve ever written a property on your class and then got annoyed you can‚Äôt use your locally-declared property as part of a remote query selection this library is for you.
 
-The problem occurs because these properties canít be translated and sent to the server as they have been compiled into intermediate language (IL) and not LINQ expression trees that are required for translation by IQueryable implementations. There is nothing available in .NET to let us reverse-engineer the IL back into the methods and syntax that would allow us to translate the intended operation into a remote query.
+The problem occurs because these properties can‚Äôt be translated and sent to the server as they have been compiled into intermediate language (IL) and not LINQ expression trees that are required for translation by IQueryable implementations. There is nothing available in .NET to let us reverse-engineer the IL back into the methods and syntax that would allow us to translate the intended operation into a remote query.
 
 This means you end up having to write your query in two parts; firstly the part the server can do, a ToList or AsEnumerable call to force that to happen and bring the intermediate results down to the client, and then the operations that can only be evaluated locally. This can hurt performance if you want to reduce or transform the result set significantly.
 
 ### Before example
 
-Here we have extended the Employee class to add Age and FullName. We only wanted to people with ìdaî in their name but we are forced to pull down everything to the client in order to the do the selection.
+Here we have extended the Employee class to add Age and FullName. We only wanted to people with ‚Äúda‚Äù in their name but we are forced to pull down everything to the client in order to the do the selection.
 
 ```csharp
 partial class Employee {
@@ -37,12 +37,15 @@ Here using Microsoft.Linq.Translations it all happens server side and works on b
 
 ```csharp
 partial class Employee {
-    private static readonly CompiledExpression<Employee,string> fullNameExpression
-        = DefaultTranslationOf<Employee>.Property(e => e.FullName).Is(e => e.Forename + " " + e.Surname);
-    private static readonly CompiledExpression<Employee,int> ageExpression
-        = DefaultTranslationOf<Employee>.Property(e => e.Age).Is(e => DateTime.Now.Year - e.BirthDate.Value.Year - 
-          (((DateTime.Now.Month < e.BirthDate.Value.Month)
-          || (DateTime.Now.Month == e.BirthDate.Value.Month && DateTime.Now.Day < e.BirthDate.Value.Day)) ? 1 : 0)));
+    private static readonly CompiledExpression<Employee,string> fullNameExpression = 
+      DefaultTranslationOf<Employee>.Property(e => e.FullName)
+        .Is(e => e.Forename + " " + e.Surname);
+    private static readonly CompiledExpression<Employee,int> ageExpression =
+      DefaultTranslationOf<Employee>.Property(e => e.Age)
+        .Is(e => DateTime.Now.Year - e.BirthDate.Value.Year - 
+          (((DateTime.Now.Month < e.BirthDate.Value.Month) || 
+          (DateTime.Now.Month == e.BirthDate.Value.Month && 
+          DateTime.Now.Day < e.BirthDate.Value.Day)) ? 1 : 0)));
 
   public string FullName {
     get { return fullNameExpression.Evaluate(this); }
@@ -53,7 +56,10 @@ partial class Employee {
   }
 }
 
-var employees = db.Employees.Where(e => e.FullName.Contains("da")).GroupBy(e => e.Age).WithTranslations();
+var employees = db.Employees
+                  .Where(e => e.FullName.Contains("da"))
+                  .GroupBy(e => e.Age)
+                  .WithTranslations();
 ```
 
 ## Getting started
@@ -71,11 +77,20 @@ There are a few alternative ways to use this rather than the specific examples a
 You can register the properties in the class itself as shown in the examples which means the properties themselves can evaluate the expressions without any reflection calls. Alternatively if performance is less critical you can register them elsewhere and have the methods look up their values dynamically via reflection. e.g.
 
 ```csharp
-DefaultTranslationOf<Employee>.Property(e => e.FullName).Is(e => e.Forename + " " + e.Surname);
-var employees = db.Employees.Where(e => e.FullName.Contains("da")).GroupBy(e => e.Age).WithTranslations();
+DefaultTranslationOf<Employee>.Property(e => e.FullName)
+  .Is(e => e.Forename + " " + e.Surname);
+  
+var employees = db.Employees
+                  .Where(e => e.FullName.Contains("da"))
+                  .GroupBy(e => e.Age)
+                  .WithTranslations();
 
 partial class Employee {
-  public string FullName { get { return DefaultTranslationOf<Employees>.Evaluate<string>(this, MethodInfo.GetCurrentMethod());} }
+  public string FullName {
+    get {
+      return DefaultTranslationOf<Employees>.Evaluate<string>(this, MethodInfo.GetCurrentMethod());
+    }
+  }
 }
 ```
 
@@ -90,14 +105,16 @@ The WithTranslations method normally operates against the default translation ma
 ```csharp
 var myTranslationMap = new TranslationMap();
 myTranslationMap.Add<Employees, string>(e => e.Name, e => e.FirstName + " " + e.LastName);
-var results = (from e in db.Employees where e.Name.Contains("martin") select e).WithTranslations(myTranslationMap).ToList();
+var results = (from e in db.Employees where e.Name.Contains("martin") select e)
+   .WithTranslations(myTranslationMap)
+   .ToList();
 ```
 
 ## How it works
 
 ### CompiledExpression<T, TResult>
 
-The first thing we needed to do was get the user-written client-side ìcomputedî properties out of IL and back into expression trees so we could translate them. Given that we also want to evaluate them on the client we need to compile them at run time so CompiledExpression exists which just takes an expression of Func<T, TResult>, compiles it and allows evaluation of objects against the compiled version.
+The first thing we needed to do was get the user-written client-side ‚Äúcomputed‚Äù properties out of IL and back into expression trees so we could translate them. Given that we also want to evaluate them on the client we need to compile them at run time so CompiledExpression exists which just takes an expression of Func<T, TResult>, compiles it and allows evaluation of objects against the compiled version.
 
 ### ExpressiveExtensions
 
@@ -105,12 +122,16 @@ This little class provides both the WithTranslations extensions methods and the 
 
 ### TranslationMap
 
-We need to have a map of properties to compiled expressions and for that purpose TranslationMap exists. You can create a TranslationMap by hand and pass it in to WithTranslations if you want to programmatically create them at run-time or have different ones for different scenarios but generally you will want to useÖ
+We need to have a map of properties to compiled expressions and for that purpose TranslationMap exists. You can create a TranslationMap by hand and pass it in to WithTranslations if you want to programmatically create them at run-time or have different ones for different scenarios but generally you will want to use‚Ä¶
 
 ### DefaultTranslationOf
 
 This helper class lets you register properties against the default TranslationMap we use when nothing is passed to WithTranslations. It also allows you to lookup what is already registered so you can evaluate to that although there is a small reflection performance penalty for that:
 
 ```csharp
-public int Age { get { return DefaultTranslationOf<Employees>.Evaluate<int>(this, MethodInfo.GetCurrentMethod()); } }
+public int Age {
+  get {
+    return DefaultTranslationOf<Employees>.Evaluate<int>(this, MethodInfo.GetCurrentMethod());
+  }
+}
 ```
