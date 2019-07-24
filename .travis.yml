@@ -1,6 +1,6 @@
 language: csharp
 sudo: required
 mono: none
-dotnet: 1.1.9
+dotnet: 2.2.108
 script:
   - ./build.sh --quiet verify
