@@ -23,7 +23,7 @@ partial class Employee {
 
   public int Age {
     get { return DateTime.Now.Year - BirthDate.Year - (((DateTime.Now.Month < BirthDate.Month)
-			|| DateTime.Now.Month == BirthDate.Month && DateTime.Now.Day < BirthDate.Day) ? 1 : 0));
+            || DateTime.Now.Month == BirthDate.Month && DateTime.Now.Day < BirthDate.Day) ? 1 : 0));
     }
   }
 }
@@ -38,9 +38,11 @@ Here using Microsoft.Linq.Translations it all happens server side and works on b
 ```csharp
 partial class Employee {
     private static readonly CompiledExpression<Employee,string> fullNameExpression
-     = DefaultTranslationOf<Employee>.Property(e => e.FullName).Is(e => e.Forename + " " + e.Surname);
+        = DefaultTranslationOf<Employee>.Property(e => e.FullName).Is(e => e.Forename + " " + e.Surname);
     private static readonly CompiledExpression<Employee,int> ageExpression
-     = DefaultTranslationOf<Employee>.Property(e => e.Age).Is(e => DateTime.Now.Year - e.BirthDate.Value.Year - (((DateTime.Now.Month < e.BirthDate.Value.Month) || (DateTime.Now.Month == e.BirthDate.Value.Month && DateTime.Now.Day < e.BirthDate.Value.Day)) ? 1 : 0)));
+        = DefaultTranslationOf<Employee>.Property(e => e.Age).Is(e => DateTime.Now.Year - e.BirthDate.Value.Year - 
+          (((DateTime.Now.Month < e.BirthDate.Value.Month)
+          || (DateTime.Now.Month == e.BirthDate.Value.Month && DateTime.Now.Day < e.BirthDate.Value.Day)) ? 1 : 0)));
 
   public string FullName {
     get { return fullNameExpression.Evaluate(this); }
@@ -73,7 +75,7 @@ DefaultTranslationOf<Employee>.Property(e => e.FullName).Is(e => e.Forename + " 
 var employees = db.Employees.Where(e => e.FullName.Contains("da")).GroupBy(e => e.Age).WithTranslations();
 
 partial class Employee {
-    public string FullName { get { return DefaultTranslationOf<Employees>.Evaluate<string>(this, MethodInfo.GetCurrentMethod());} }
+  public string FullName { get { return DefaultTranslationOf<Employees>.Evaluate<string>(this, MethodInfo.GetCurrentMethod());} }
 }
 ```
 
