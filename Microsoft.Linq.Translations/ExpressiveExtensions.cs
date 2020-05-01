@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.  All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (MS-PL)
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Reflection;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Runtime.CompilerServices;
+    using System.Reflection;
 
 namespace Microsoft.Linq.Translations
 {
@@ -26,7 +26,7 @@ namespace Microsoft.Linq.Translations
         /// <returns><see cref="IQueryable{T}"/> containing translated query.</returns>
         public static IQueryable<T> WithTranslations<T>(this IQueryable<T> source)
         {
-            Argument.EnsureNotNull("source", source);
+            if (source == null) throw new ArgumentNullException(nameof(source));
 
             return source.Provider.CreateQuery<T>(WithTranslations(source.Expression));
         }
@@ -43,8 +43,8 @@ namespace Microsoft.Linq.Translations
         /// <returns><see cref="IQueryable{T}"/> containing translated query.</returns>
         public static IQueryable<T> WithTranslations<T>(this IQueryable<T> source, TranslationMap map)
         {
-            Argument.EnsureNotNull("source", source);
-            Argument.EnsureNotNull("map", map);
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (map == null) throw new ArgumentNullException(nameof(map));
 
             return source.Provider.CreateQuery<T>(WithTranslations(source.Expression, map));
         }
@@ -59,7 +59,7 @@ namespace Microsoft.Linq.Translations
         /// <returns><see cref="Expression"/> tree with translatable expressions translated.</returns>
         public static Expression WithTranslations(Expression expression)
         {
-            Argument.EnsureNotNull("expression", expression);
+            if (expression == null) throw new ArgumentNullException(nameof(expression));
 
             return WithTranslations(expression, TranslationMap.DefaultMap);
         }
@@ -75,15 +75,15 @@ namespace Microsoft.Linq.Translations
         /// <returns><see cref="Expression"/> tree with translatable expressions translated.</returns>
         public static Expression WithTranslations(Expression expression, TranslationMap map)
         {
-            Argument.EnsureNotNull("expression", expression);
-            Argument.EnsureNotNull("map", map);
+            if (expression == null) throw new ArgumentNullException(nameof(expression));
+            if (map == null) throw new ArgumentNullException(nameof(map));
 
             return new TranslatingVisitor(map).Visit(expression);
         }
 
         private static void EnsureTypeInitialized(Type type)
         {
-            Argument.EnsureNotNull("type", type);
+            if (type == null) throw new ArgumentNullException(nameof(type));
 
             try
             {
@@ -106,14 +106,12 @@ namespace Microsoft.Linq.Translations
 
             internal TranslatingVisitor(TranslationMap map)
             {
-                Argument.EnsureNotNull("map", map);
-
-                this.map = map;
+                this.map = map ?? throw new ArgumentNullException(nameof(map));
             }
 
             protected override Expression VisitMember(MemberExpression node)
             {
-                Argument.EnsureNotNull("node", node);
+                if (node == null) throw new ArgumentNullException(nameof(node));
 
                 EnsureTypeInitialized(node.Member.DeclaringType);
 

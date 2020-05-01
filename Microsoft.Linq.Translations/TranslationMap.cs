@@ -23,7 +23,7 @@ namespace Microsoft.Linq.Translations
         /// <returns><see cref="CompiledExpression{T, TResult}"/> for this property.</returns>
         public CompiledExpression<T, TResult> Get<T, TResult>(MethodBase method)
         {
-            Argument.EnsureNotNull("method", method);
+            if (method == null) throw new ArgumentNullException(nameof(method));
 
             var propertyInfo = method.DeclaringType.GetRuntimeProperty(method.Name.Replace("get_", String.Empty));
             return this[propertyInfo] as CompiledExpression<T, TResult>;
@@ -40,8 +40,8 @@ namespace Microsoft.Linq.Translations
         /// <returns><see cref="CompiledExpression{T, TResult}"/> for this property.</returns>
         public void Add<T, TResult>(Expression<Func<T, TResult>> property, CompiledExpression<T, TResult> compiledExpression)
         {
-            Argument.EnsureNotNull("property", property);
-            Argument.EnsureNotNull("compiledExpression", compiledExpression);
+            if (property == null) throw new ArgumentNullException(nameof(property));
+            if (compiledExpression == null) throw new ArgumentNullException(nameof(compiledExpression));
 
             Add(((MemberExpression)property.Body).Member, compiledExpression);
         }
@@ -57,8 +57,8 @@ namespace Microsoft.Linq.Translations
         /// <returns><see cref="CompiledExpression{T, TResult}"/> for this property.</returns>
         public CompiledExpression<T, TResult> Add<T, TResult>(Expression<Func<T, TResult>> property, Expression<Func<T, TResult>> expression)
         {
-            Argument.EnsureNotNull("property", property);
-            Argument.EnsureNotNull("expression", expression);
+            if (property == null) throw new ArgumentNullException(nameof(property));
+            if (expression == null) throw new ArgumentNullException(nameof(expression));
 
             var compiledExpression = new CompiledExpression<T, TResult>(expression);
             Add(property, compiledExpression);

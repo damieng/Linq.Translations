@@ -29,8 +29,7 @@ namespace Microsoft.Linq.Translations
         /// <param name="expression">The expression to compile.</param>
         public CompiledExpression(Expression<Func<T, TResult>> expression)
         {
-            Argument.EnsureNotNull("expression", expression);
-            this.expression = expression;
+            this.expression = expression ?? throw new ArgumentNullException(nameof(expression));
             function = expression.Compile();
         }
 
@@ -42,7 +41,7 @@ namespace Microsoft.Linq.Translations
         /// <returns><typeparamref name="TResult"/> result from evaluating this compiled expression against <paramref name="instance"/>.</returns>
         public TResult Evaluate(T instance)
         {
-            Argument.EnsureNotNull("instance", instance);
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
             return function(instance);
         }
 
