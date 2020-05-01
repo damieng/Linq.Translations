@@ -2,8 +2,6 @@
 
 [![NuGet](https://img.shields.io/nuget/v/Microsoft.Linq.Translations.svg?style=flat)](https://www.nuget.org/packages/Microsoft.Linq.Translations/)
 ![.NET Core](https://github.com/damieng/linq.translations/workflows/.NET%20Core/badge.svg)
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/6dvhu9u63ldp5s4j?svg=true)](https://ci.appveyor.com/project/damieng/linq-translations)
-[![Travis](https://travis-ci.org/damieng/Linq.Translations.svg?branch=master)](https://travis-ci.org/damieng/Linq.Translations)
 
 ## Overview
 
