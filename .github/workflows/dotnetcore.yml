@@ -23,3 +23,6 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Pack
+      run: dotnet pack --configuration Release --no-restore --verbosity normal
+
