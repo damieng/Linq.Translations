@@ -1,19 +1,29 @@
 ﻿// Copyright (c) Microsoft Corporation.  All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (MS-PL)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
+using System.Reflection;
+
 namespace Microsoft.Linq.Translations
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
     /// <summary>
     /// Extension methods over IQueryable to turn on expression translation via a
     /// specified or default TranslationMap.
     /// </summary>
     public static class ExpressiveExtensions
     {
+        /// <summary>
+        /// Create a new <see cref="IQueryable{T}"/> based upon the
+        /// <paramref name="source"/> with the translatable properties decomposed back
+        /// into their expression trees ready for translation to a remote provider using
+        /// the default <see cref="TranslationMap"/>.
+        /// </summary>
+        /// <typeparam name="T">Result type of the query.</typeparam>
+        /// <param name="source">Source query to translate.</param>
+        /// <returns><see cref="IQueryable{T}"/> containing translated query.</returns>
         public static IQueryable<T> WithTranslations<T>(this IQueryable<T> source)
         {
             Argument.EnsureNotNull("source", source);
@@ -21,6 +31,16 @@ namespace Microsoft.Linq.Translations
             return source.Provider.CreateQuery<T>(WithTranslations(source.Expression));
         }
 
+        /// <summary>
+        /// Create a new <see cref="IQueryable{T}"/> based upon the
+        /// <paramref name="source"/> with the translatable properties decomposed back
+        /// into their expression trees ready for translation to a remote provider using
+        /// a specific <paramref name="map"/>.
+        /// </summary>
+        /// <typeparam name="T">Result type of the query.</typeparam>
+        /// <param name="source">Source query to translate.</param>
+        /// <param name="map"><see cref="TranslationMap"/> used to translate property accesses.</param>
+        /// <returns><see cref="IQueryable{T}"/> containing translated query.</returns>
         public static IQueryable<T> WithTranslations<T>(this IQueryable<T> source, TranslationMap map)
         {
             Argument.EnsureNotNull("source", source);
@@ -29,6 +49,14 @@ namespace Microsoft.Linq.Translations
             return source.Provider.CreateQuery<T>(WithTranslations(source.Expression, map));
         }
 
+        /// <summary>
+        /// Create a new <see cref="Expression"/> tree based upon the
+        /// <paramref name="expression"/> with translatable properties decomposed back
+        /// into their expression trees ready for translation to a remote provider using
+        /// the default <see cref="TranslationMap"/>.
+        /// </summary>
+        /// <param name="expression">Expression tree to translate.</param>
+        /// <returns><see cref="Expression"/> tree with translatable expressions translated.</returns>
         public static Expression WithTranslations(Expression expression)
         {
             Argument.EnsureNotNull("expression", expression);
@@ -36,6 +64,15 @@ namespace Microsoft.Linq.Translations
             return WithTranslations(expression, TranslationMap.DefaultMap);
         }
 
+        /// <summary>
+        /// Create a new <see cref="Expression"/> tree based upon the
+        /// <paramref name="expression"/> with translatable properties decomposed back
+        /// into their expression trees ready for translation to a remote provider using
+        /// the default <see cref="TranslationMap"/>.
+        /// </summary>
+        /// <param name="expression">Expression tree to translate.</param>
+        /// <param name="map"><see cref="TranslationMap"/> used to translate property accesses.</param>
+        /// <returns><see cref="Expression"/> tree with translatable expressions translated.</returns>
         public static Expression WithTranslations(Expression expression, TranslationMap map)
         {
             Argument.EnsureNotNull("expression", expression);
@@ -80,8 +117,7 @@ namespace Microsoft.Linq.Translations
 
                 EnsureTypeInitialized(node.Member.DeclaringType);
 
-                CompiledExpression cp;
-                if (map.TryGetValue(node.Member, out cp))
+                if (map.TryGetValue(node.Member, out CompiledExpression cp))
                 {
                     return VisitCompiledExpression(cp, node.Expression);
                 }
