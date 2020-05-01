@@ -3,11 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Microsoft.Linq.Translations</RootNamespace>
-    <Version>1.0.2</Version>
+    <Version>2.0.0</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Microsoft.Linq.Translations.1.0.2.nupkg" />
-  </ItemGroup>
 
 </Project>
