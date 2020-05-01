@@ -6,4 +6,8 @@
     <Version>1.0.2</Version>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Microsoft.Linq.Translations.1.0.2.nupkg" />
+  </ItemGroup>
+
 </Project>
