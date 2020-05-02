@@ -25,4 +25,6 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
     - name: Pack
       run: dotnet pack --configuration Release --no-restore --verbosity normal
-
+    - uses: actions/upload-artifact@v2
+      with:
+        path: /home/runner/work/Linq.Translations/**/.nupkg
