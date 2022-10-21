@@ -59,9 +59,7 @@ namespace Microsoft.Linq.Translations
         /// the building of fluent property translation syntax.
         /// </remarks>
         /// <typeparam name="TResult">Result type of the property translation.</typeparam>
-#pragma warning disable CA1034 // Nested types should not be visible - used for fluent chaining only.
         public class IncompletePropertyTranslation<TResult>
-#pragma warning restore CA1034 // Nested types should not be visible
         {
             private readonly Expression<Func<T, TResult>> property;
 
