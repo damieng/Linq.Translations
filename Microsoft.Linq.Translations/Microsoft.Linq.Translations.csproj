@@ -1,42 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Microsoft.Linq.Translations</RootNamespace>
-    <NeutralLanguage>en-US</NeutralLanguage>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<RootNamespace>Microsoft.Linq.Translations</RootNamespace>
+		<NeutralLanguage>en-US</NeutralLanguage>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <Product>Microsoft.Linq.Translations</Product>
-    <Description>
-      A library for declaring properties into remote-translatable expressions.
-    </Description>
-    <Copyright>Microsoft Inc. 2009-2020</Copyright>
-    <PackageLicenseExpression>MS-PL</PackageLicenseExpression>
-    <PackageTags>linq;translations;iqueryable</PackageTags>
-    <PackageProjectUrl>https://github.com/damieng/Linq.Translations</PackageProjectUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/damieng/Linq.Translations</RepositoryUrl>
-    <PackageReleaseNotes>
-      Version 2.0.0
-      - .NET Standard 2.0 build.
-    </PackageReleaseNotes>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Product>Microsoft.Linq.Translations</Product>
+		<Description>
+			A library for declaring properties into remote-translatable expressions.
+		</Description>
+		<Copyright>Microsoft Inc. 2009-2022</Copyright>
+		<PackageLicenseExpression>MS-PL</PackageLicenseExpression>
+		<PackageTags>linq;translations;iqueryable</PackageTags>
+		<PackageProjectUrl>https://github.com/damieng/Linq.Translations</PackageProjectUrl>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/damieng/Linq.Translations</RepositoryUrl>
+		<PackageReleaseNotes>
+			Version 3.0.0
+			- Upgraded to .NET 6.0
+			Version 2.0.0
+			- .NET Standard 2.0 build.
+		</PackageReleaseNotes>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <Major>2</Major>
-    <Minor>0</Minor>
-    <Revision>0</Revision>
-    <Suffix></Suffix>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyVersion>$(Major).$(Minor).$(Revision)</AssemblyVersion>
-    <AssemblyFileVersion>$(Major).$(Minor).$(Revision)</AssemblyFileVersion>
-    <InformationalVersion>$(Major).$(Minor).$(Revision)</InformationalVersion>
-    <PackageVersion>$(Major).$(Minor).$(Revision)$(Suffix)</PackageVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Major>3</Major>
+		<Minor>0</Minor>
+		<Revision>0</Revision>
+		<Suffix></Suffix>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AssemblyVersion>$(Major).$(Minor).$(Revision)</AssemblyVersion>
+		<AssemblyFileVersion>$(Major).$(Minor).$(Revision)</AssemblyFileVersion>
+		<InformationalVersion>$(Major).$(Minor).$(Revision)</InformationalVersion>
+		<PackageVersion>$(Major).$(Minor).$(Revision)$(Suffix)</PackageVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
 
 </Project>

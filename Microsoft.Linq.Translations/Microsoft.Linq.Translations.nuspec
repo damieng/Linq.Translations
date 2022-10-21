@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
-  <metadata>
-    <id>Microsoft.Linq.Translations</id>
-    <title>Microsoft.Linq.Translations</title>
-    <authors>David Fowler, Damien Guard</authors>
-    <owners>David Fowler, Damien Guard</owners>
-    <license type="expression">MS-PL</license>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <projectUrl>https://github.com/damieng/Linq.Translations</projectUrl>
-    <description>A library for declaring properties into remote-translatable expressions.</description>
-    <copyright>Copyright Microsoft Inc. 2009.</copyright>
-    <releaseNotes>
-      Version 2.0.0
-      - .NET Standard 2.0 build.
-    </releaseNotes>
-    <tags>LINQ translation IQueryable</tags>
-    <dependencies>
-      <group targetFramework=".NETStandard2.0" />
-    </dependencies>
-  </metadata>
+	<metadata>
+		<id>Microsoft.Linq.Translations</id>
+		<title>Microsoft.Linq.Translations</title>
+		<authors>David Fowler, Damien Guard</authors>
+		<owners>David Fowler, Damien Guard</owners>
+		<license type="expression">MS-PL</license>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<projectUrl>https://github.com/damieng/Linq.Translations</projectUrl>
+		<description>A library for declaring properties into remotely-translatable expressions.</description>
+		<copyright>Copyright Microsoft Inc. 2009-2022</copyright>
+		<version>3.0.0</version>
+		<releaseNotes>
+			Version 3.0.0
+			- Upgraded to .NET 6.0
+			Version 2.0.0
+			- .NET Standard 2.0 build.
+		</releaseNotes>
+		<tags>LINQ translation IQueryable</tags>
+		<dependencies>
+			<group targetFramework="net6.0" />
+		</dependencies>
+	</metadata>
 </package>
