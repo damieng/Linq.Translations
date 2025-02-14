@@ -37,23 +37,19 @@ Here using Microsoft.Linq.Translations it all happens server side and works on b
 
 ```csharp
 partial class Employee {
-    private static readonly CompiledExpression<Employee,string> fullNameExpression = 
-      DefaultTranslationOf<Employee>.Property(e => e.FullName)
-        .Is(e => e.Forename + " " + e.Surname);
+    private static readonly CompiledExpression<Employee,string> fullNameExpression =
+        DefaultTranslationOf<Employee>.Property(e => e.FullName)
+            .Is(e => e.Forename + " " + e.Surname);
     private static readonly CompiledExpression<Employee,int> ageExpression =
-      DefaultTranslationOf<Employee>.Property(e => e.Age)
-        .Is(e => DateTime.Now.Year - e.BirthDate.Value.Year - 
-          (((DateTime.Now.Month < e.BirthDate.Value.Month) || 
-          (DateTime.Now.Month == e.BirthDate.Value.Month && 
-          DateTime.Now.Day < e.BirthDate.Value.Day)) ? 1 : 0)));
+        DefaultTranslationOf<Employee>.Property(e => e.Age)
+            .Is(e => DateTime.Now.Year - e.BirthDate.Year -
+                     (DateTime.Now.Month < e.BirthDate.Month ||
+                      DateTime.Now.Month == e.BirthDate.Month &&
+                      DateTime.Now.Day < e.BirthDate.Day ? 1 : 0));
 
-  public string FullName {
-    get { return fullNameExpression.Evaluate(this); }
-  }
+    public string FullName => fullNameExpression.Evaluate(this);
 
-  public int Age {
-    get { return ageExpression.Evaluate(this); }
-  }
+    public int Age => ageExpression.Evaluate(this);
 }
 
 var employees = db.Employees
