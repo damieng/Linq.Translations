@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Runtime.CompilerServices;
     using System.Reflection;
+    using System.Runtime.CompilerServices;
 
 namespace Microsoft.Linq.Translations
 {
@@ -113,14 +113,27 @@ namespace Microsoft.Linq.Translations
             {
                 if (node == null) throw new ArgumentNullException(nameof(node));
 
-                EnsureTypeInitialized(node.Member.DeclaringType);
+				MemberInfo memberKey = node.Member;
+				// normalize interface member tokens to the concrete class type if applicable
+				if (node.Expression != null && node.Member.DeclaringType?.IsInterface == true) {
+					Type actualTargetType = node.Expression.Type;
+					var reflectedProperty = actualTargetType.GetProperty(node.Member.Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+					if (reflectedProperty != null) {
+						// walk up to the actual declaring type if needed
+						memberKey = (reflectedProperty.ReflectedType != reflectedProperty.DeclaringType)
+							? reflectedProperty.DeclaringType.GetProperty(reflectedProperty.Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance) ?? reflectedProperty
+							: reflectedProperty;
+					}
+				}
 
-                if (map.TryGetValue(node.Member, out CompiledExpression cp))
+				EnsureTypeInitialized(memberKey.DeclaringType);
+
+                if (map.TryGetValue(memberKey, out CompiledExpression cp))
                 {
                     return VisitCompiledExpression(cp, node.Expression);
                 }
 
-                if (typeof(CompiledExpression).GetTypeInfo().IsAssignableFrom(node.Member.DeclaringType.GetTypeInfo()))
+                if (typeof(CompiledExpression).GetTypeInfo().IsAssignableFrom(memberKey.DeclaringType.GetTypeInfo()))
                 {
                     return VisitCompiledExpression(cp, node.Expression);
                 }
